@@ -3,16 +3,14 @@
 #include "util.h"
 
 World::World()
-	: player(constants::WORLD_CENTER, constants::MED_SPEED)
-	, camera(player)
-	, other()
-	, _playerVAO()
-	, _playerVBO()
-	, _playerEBO()
-	, _playerShader()
-	, _playerNumVertices()
-{
-	player.SetCamera(&camera);
+		: player(constants::WORLD_CENTER, constants::MED_SPEED)
+		, camera(player)
+		, other()
+		, _playerVAO()
+		, _playerVBO()
+		, _playerEBO()
+		, _playerShader()
+		, _playerNumVertices() {
 	init();
 }
 

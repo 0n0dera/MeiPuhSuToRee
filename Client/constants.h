@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
+#include <glm/gtc/constants.hpp>
 #include <GL/glew.h>
 
 namespace constants {
@@ -18,6 +19,7 @@ const GLfloat LOW_SPEED = 2.0f;
 const GLfloat MED_SPEED = 5.0f;
 const GLfloat HIGH_SPEED = 8.0f;
 
+const GLfloat FORWARD_YAW = -glm::half_pi<GLfloat>();
 /*
  * WORLD CONSTANTS
  */
