@@ -151,8 +151,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="constants.h" />
     <ClInclude Include="entity.h" />
+    <ClInclude Include="fixed_camera.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="shaders\shader.h" />
+    <ClInclude Include="util.h" />
     <ClInclude Include="world.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -160,8 +164,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="entity.cpp" />
+    <ClCompile Include="fixed_camera.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="shaders\shader.cpp" />
     <ClCompile Include="world.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -170,6 +176,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="window_manager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\player.frag" />
+    <None Include="shaders\player.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
