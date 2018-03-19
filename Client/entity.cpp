@@ -6,43 +6,66 @@ Entity::Entity(
 		GLfloat speed,
 		GLfloat yaw,
 		GLfloat pitch,
-		GLfloat roll)
-		: _position(position)
-		, _front()
-		, _right()
-		, _up()
-		, _speed(speed)
-		, _yaw(yaw)
-		, _pitch(pitch)
-		, _roll(roll)
-		, _nextYaw(yaw)
-		, _nextPitch(pitch)
-		, _nextRoll(roll) {
+		GLfloat roll,
+		GLfloat boundingBoxDeltaX,
+		GLfloat boundingBoxDeltaY,
+		GLfloat boundingBoxDeltaZ)
+		: position(position)
+		, front()
+		, right()
+		, up()
+		, speed(speed)
+		, yaw(yaw)
+		, pitch(pitch)
+		, roll(roll)
+		, nextYaw(yaw)
+		, nextPitch(pitch)
+		, nextRoll(roll)
+		, boundingBoxDeltaX(boundingBoxDeltaX)
+		, boundingBoxDeltaY(boundingBoxDeltaY)
+		, boundingBoxDeltaZ(boundingBoxDeltaZ) {
 	CalculateDirectionVectors();
 }
 
 Entity::~Entity() {}
 
+void Entity::Tick(GLfloat deltaTime, GLfloat groundLevel) {
+	yVelocity = yVelocity + constants::GRAVITY * deltaTime;
+	position.y += yVelocity * deltaTime;
+	if (position.y - boundingBoxDeltaY < groundLevel) {
+		position.y = groundLevel + boundingBoxDeltaY;
+		grounded = true;
+		yVelocity = 0.0f;
+	}
+}
+
 void Entity::Move(EntityMovement direction, GLfloat delta) {
 	CalculateDirectionVectors();
-	GLfloat velocity = delta * _speed;
-	_position += _front * velocity;
+	GLfloat velocity = delta * speed;
+	position += front * velocity;
 }
 
 void Entity::Rotate(GLfloat yaw, GLfloat pitch, GLfloat roll) {
-	_nextYaw += yaw;
-	_nextPitch += pitch;
-	_nextRoll += roll;
+	nextYaw += yaw;
+	nextPitch += pitch;
+	nextRoll += roll;
+}
+
+void Entity::Jump() {
+	if (grounded) {
+		grounded = false;
+		yVelocity = 5.0f;
+	}
 }
 
 void Entity::CalculateDirectionVectors() {
-	_yaw = _nextYaw;
-	_pitch = _nextPitch;
-	_roll = _nextRoll;
-	_front.x = -cos(_yaw);
-	_front.y = sin(_pitch);
-	_front.z = sin(_yaw) * cos(_pitch);
-	_front = glm::normalize(_front);
-	_right = glm::normalize(glm::cross(_front, constants::WORLD_UP));
-	_up = glm::normalize(glm::cross(_right, _front));
+	yaw = nextYaw;
+	pitch = nextPitch;
+	roll = nextRoll;
+	front.x = -cos(yaw);
+	front.y = sin(pitch);
+	front.z = sin(yaw) * cos(pitch);
+	front = glm::normalize(front);
+	right = glm::normalize(glm::cross(front, constants::WORLD_UP));
+	up = glm::normalize(glm::cross(right, front));
 }

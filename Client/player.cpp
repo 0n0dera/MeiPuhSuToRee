@@ -8,63 +8,66 @@ Player::Player(
 		GLfloat yaw,
 		GLfloat pitch,
 		GLfloat roll)
-		: Entity(position, speed, yaw, pitch, roll) {}
+		: Entity(position, speed, yaw, pitch, roll, constants::PLAYER_BB_X, constants::PLAYER_BB_Y, constants::PLAYER_BB_Z) {}
 
 Player::~Player() {}
 
 void Player::Move(EntityMovement direction, GLfloat delta) {
+	const GLfloat turnRight = -glm::half_pi<GLfloat>();
+	const GLfloat turnLeft = glm::half_pi<GLfloat>();
+	const GLfloat turnBack = glm::pi<GLfloat>();
 	static EntityMovement last = FORWARD;
 	if (direction != last) {
 		switch (last) {
 		case FORWARD:
 			switch (direction) {
 			case BACKWARD:
-				_nextYaw += glm::pi<GLfloat>();
+				nextYaw += turnBack;
 				break;
 			case RIGHT:
-				_nextYaw -= glm::half_pi<GLfloat>();
+				nextYaw += turnRight;
 				break;
 			case LEFT:
-				_nextYaw += glm::half_pi<GLfloat>();
+				nextYaw += turnLeft;
 				break;
 			}
 			break;
 		case BACKWARD:
 			switch (direction) {
 			case FORWARD:
-				_nextYaw += glm::pi<GLfloat>();
+				nextYaw += turnBack;
 				break;
 			case RIGHT:
-				_nextYaw += glm::half_pi<GLfloat>();
+				nextYaw += turnLeft;
 				break;
 			case LEFT:
-				_nextYaw -= glm::half_pi<GLfloat>();
+				nextYaw += turnRight;
 				break;
 			}
 			break;
 		case RIGHT:
 			switch (direction) {
 			case BACKWARD:
-				_nextYaw -= glm::half_pi<GLfloat>();
+				nextYaw += turnRight;
 				break;
 			case FORWARD:
-				_nextYaw += glm::half_pi<GLfloat>();
+				nextYaw += turnLeft;
 				break;
 			case LEFT:
-				_nextYaw += glm::pi<GLfloat>();
+				nextYaw += turnBack;
 				break;
 			}
 			break;
 		case LEFT:
 			switch (direction) {
 			case RIGHT:
-				_nextYaw -= glm::pi<GLfloat>();
+				nextYaw += turnBack;
 				break;
 			case BACKWARD:
-				_nextYaw += glm::half_pi<GLfloat>();
+				nextYaw += turnLeft;
 				break;
 			case FORWARD:
-				_nextYaw -= glm::half_pi<GLfloat>();
+				nextYaw += turnRight;
 				break;
 			}
 			break;
@@ -74,5 +77,5 @@ void Player::Move(EntityMovement direction, GLfloat delta) {
 	// need to update camera distance when player moves
 	// camera needs to jump behind player
 	Entity::Move(direction, delta);
-	printf("%f, %f, %f\n", _front.x, _front.y, _front.z);
+	printf("%f, %f, %f\n", front.x, front.y, front.z);
 }

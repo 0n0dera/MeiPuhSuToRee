@@ -21,75 +21,52 @@ public:
 		GLfloat speed,
 		GLfloat yaw,
 		GLfloat pitch,
-		GLfloat roll
+		GLfloat roll,
+		GLfloat boundingBoxDeltaX,
+		GLfloat boundingBoxDeltaY,
+		GLfloat boundingBoxDeltaZ
 	);
 	// probs need to make this virtual in the future
 	virtual ~Entity();
 
+	virtual void Tick(GLfloat deltaTime, GLfloat groundLevel);
 	virtual void Move(EntityMovement direction, GLfloat delta);
 	virtual void Rotate(GLfloat yaw, GLfloat pitch, GLfloat roll);
+	virtual void Jump();
 
-	// getters
-	glm::vec3 Position() const;
-	glm::vec3 Front() const;
-	glm::vec3 Right() const;
-	glm::vec3 Up() const;
-	GLfloat Speed() const;
-	GLfloat Yaw() const;
-	GLfloat Pitch() const;
-	GLfloat Roll() const;
-protected:
 	// rotation around Y axis
-	GLfloat _yaw;
+	GLfloat yaw;
 	// rotation around X axis
-	GLfloat _pitch;
+	GLfloat pitch;
 	// rotation around Z axis
-	GLfloat _roll;
+	GLfloat roll;
 
 	// These are updated in Rotate() when camera moves.
 	// When player finally moves, direction vectors get calculated
 	// based on these values.
-	// Could replace this by getting a pointer to camera and using
-	// camera's distance vector but I'd rather do this
-	GLfloat _nextYaw;
-	GLfloat _nextPitch;
-	GLfloat _nextRoll;
+	GLfloat nextYaw;
+	GLfloat nextPitch;
+	GLfloat nextRoll;
 	// unit vector in direction entity is facing
-	glm::vec3 _front;
-private:
+	glm::vec3 front;
 	// entity's position in the world
-	glm::vec3 _position;
+	glm::vec3 position;
 	// unit vector to the right of entity
-	glm::vec3 _right;
+	glm::vec3 right;
 	// unit vector up from entity
-	glm::vec3 _up;
+	glm::vec3 up;
 	// movement speed
-	GLfloat _speed;
+	GLfloat speed;
+	// y velocity
+	GLfloat yVelocity = 0.0f;
+	// on ground
+	bool grounded = true;
+	
+	// delta x/y/z for bounding box. half of actual x, y, z lengths
+	GLfloat boundingBoxDeltaX;
+	GLfloat boundingBoxDeltaY;
+	GLfloat boundingBoxDeltaZ;
 
+private:
 	void CalculateDirectionVectors();
 };
-
-inline glm::vec3 Entity::Position() const {
-	return _position;
-}
-inline glm::vec3 Entity::Front() const {
-	return _front;
-}
-inline glm::vec3 Entity::Right() const {
-	return _right;
-}
-inline glm::vec3 Entity::Up() const {
-	return _up;
-}
-inline GLfloat Entity::Speed() const {
-	return _speed;
-}
-inline GLfloat Entity::Yaw() const {
-	return _yaw;
-}
-inline GLfloat Entity::Pitch() const {
-	return _pitch;
-}
-inline GLfloat Entity::Roll() const {
-	return _roll;
-}

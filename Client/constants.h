@@ -12,6 +12,14 @@ const GLfloat WIDTH = 800;
 const GLfloat HEIGHT = 600;
 
 /*
+ * PLAYER CONSTANTS
+ */
+const GLfloat PLAYER_BB_X = 0.5f;
+const GLfloat PLAYER_BB_Y = 1.0f;
+const GLfloat PLAYER_BB_Z = 0.5f;
+
+
+/*
  * ENTITY CONSTANTS
  */
 // movement speeds
@@ -23,6 +31,7 @@ const GLfloat FORWARD_YAW = -glm::half_pi<GLfloat>();
 /*
  * WORLD CONSTANTS
  */
+const GLfloat GRAVITY = -9.8;
 const glm::vec3 WORLD_CENTER = { 0.0f, 0.0f, 0.0f };
 const glm::vec3 X_AXIS = { 1.0f, 0.0f, 0.0f };
 const glm::vec3 Y_AXIS = { 0.0f, 1.0f, 0.0f };

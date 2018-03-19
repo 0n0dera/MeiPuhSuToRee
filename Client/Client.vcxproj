@@ -89,7 +89,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\Andy\Desktop\code\MeiPuhSuToRee\lib\glm;C:\Users\Andy\Desktop\code\MeiPuhSuToRee\Client;C:\Users\Andy\Desktop\code\MeiPuhSuToRee\lib\glfw-3.2.1.bin.WIN32\include;C:\Users\Andy\Desktop\code\MeiPuhSuToRee\lib\glew-2.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -155,7 +155,6 @@
     <ClInclude Include="entity.h" />
     <ClInclude Include="fixed_camera.h" />
     <ClInclude Include="player.h" />
-    <ClInclude Include="shaders\shader.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="world.h" />
     <ClInclude Include="stdafx.h" />
@@ -167,7 +166,6 @@
     <ClCompile Include="fixed_camera.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
-    <ClCompile Include="shaders\shader.cpp" />
     <ClCompile Include="world.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

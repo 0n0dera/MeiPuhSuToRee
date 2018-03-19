@@ -10,8 +10,8 @@ FixedCamera::FixedCamera(Player& player)
 	, _zoom(constants::CAMERA_ZOOM) {}
 
 glm::mat4 FixedCamera::GetViewMatrix() {
-	glm::vec3 position = _player.Position() + _distance;
-	return glm::lookAt(position, _player.Position(), constants::WORLD_UP);
+	glm::vec3 position = _player.position + _distance;
+	return glm::lookAt(position, _player.position, constants::WORLD_UP);
 }
 
 void FixedCamera::Rotate(double dx, double dy) {
@@ -29,7 +29,6 @@ void FixedCamera::Rotate(double dx, double dy) {
 	_distance.y = v1.y;
 	_distance.z = v1.z;
 	_player.Rotate(dYaw, 0, 0);
-	printf("%f %f %f\n", _distance.x, _distance.y, _distance.z);
 }
 
 // zoom is either -1 or 1

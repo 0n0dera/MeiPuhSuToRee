@@ -1,8 +1,6 @@
 #pragma once
 #include "entity.h"
 
-class FixedCamera;
-
 class Player : public Entity
 {
 public:
