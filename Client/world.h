@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 
+#include "collision_detector.h"
 #include "fixed_camera.h"
 #include "player.h"
 
@@ -17,10 +18,12 @@ public:
 
 	Player player;
 	FixedCamera camera;
-	std::vector<Player> other;
+	CollisionDetector collisionDetector;
+	std::vector<Entity*> enemies;
 private:
 	// drawing functions
 	void DrawPlayer(const Player& player);
+	void DrawEnemies();
 	void DrawGround();
 	void init();
 	void initPlayerData();

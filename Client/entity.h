@@ -3,8 +3,12 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <vector>
 
 #include "constants.h"
+
+using BoundingBoxEdges = std::vector<std::pair<glm::vec3, glm::vec3>>;
+using BoundingBoxCorners = std::vector<glm::vec3>;
 
 class Entity
 {
@@ -66,7 +70,10 @@ public:
 	GLfloat boundingBoxDeltaX;
 	GLfloat boundingBoxDeltaY;
 	GLfloat boundingBoxDeltaZ;
+	BoundingBoxCorners bbCorners;
+	BoundingBoxEdges bbEdges;
 
 private:
 	void CalculateDirectionVectors();
+	void CalculateBoundingBox();
 };

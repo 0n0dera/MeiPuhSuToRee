@@ -14,5 +14,6 @@ public:
 	virtual ~Player() override;
 
 	void Move(EntityMovement direction, GLfloat delta) override;
+	virtual void Collide(Entity* entity);
 private:
 };

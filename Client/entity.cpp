@@ -24,6 +24,7 @@ Entity::Entity(
 		, boundingBoxDeltaX(boundingBoxDeltaX)
 		, boundingBoxDeltaY(boundingBoxDeltaY)
 		, boundingBoxDeltaZ(boundingBoxDeltaZ) {
+	CalculateBoundingBox();
 	CalculateDirectionVectors();
 }
 
@@ -68,4 +69,33 @@ void Entity::CalculateDirectionVectors() {
 	front = glm::normalize(front);
 	right = glm::normalize(glm::cross(front, constants::WORLD_UP));
 	up = glm::normalize(glm::cross(right, front));
+}
+
+void Entity::CalculateBoundingBox() {
+	glm::vec3 corner1(-boundingBoxDeltaX, boundingBoxDeltaY, boundingBoxDeltaZ);
+	glm::vec3 corner2(boundingBoxDeltaX, boundingBoxDeltaY, -boundingBoxDeltaZ);
+	glm::vec3 corner3(-boundingBoxDeltaX, -boundingBoxDeltaY, -boundingBoxDeltaZ);
+	glm::vec3 corner4(boundingBoxDeltaX, -boundingBoxDeltaY, boundingBoxDeltaZ);
+	std::vector<glm::vec3> corners{ corner1, corner2, corner3, corner4 };
+	for (const auto& corner : corners) {
+		bbEdges.emplace_back(
+			corner,
+			corner + (corner.x > 0 ? -1 : 1) * 2 * boundingBoxDeltaX);
+		bbEdges.emplace_back(
+			corner,
+			corner + (corner.y > 0 ? -1 : 1) * 2 * boundingBoxDeltaY);
+		bbEdges.emplace_back(
+			corner,
+			corner + (corner.z > 0 ? -1 : 1) * 2 * boundingBoxDeltaZ);
+	}
+	for (int i = -1; i <= 1; i += 2) {
+		for (int j = -1; j <= 1; j += 2) {
+			for (int k = -1; k <= 1; k += 2) {
+				bbCorners.emplace_back(
+					i * boundingBoxDeltaX,
+					j * boundingBoxDeltaY,
+					k * boundingBoxDeltaZ);
+			}
+		}
+	}
 }

@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="collision_detector.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="fixed_camera.h" />
@@ -162,6 +163,7 @@
     <ClInclude Include="window_manager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="collision_detector.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="fixed_camera.cpp" />
     <ClCompile Include="main.cpp" />

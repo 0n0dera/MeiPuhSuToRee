@@ -5,7 +5,7 @@
 World::World()
 		: player(constants::WORLD_CENTER, constants::MED_SPEED)
 		, camera(player)
-		, other()
+		, enemies()
 		, _playerVAO()
 		, _playerVBO()
 		, _playerEBO()
@@ -29,7 +29,7 @@ World::~World()
 
 void World::init()
 {
-	other.emplace_back(glm::vec3(10, 0, 10), constants::MED_SPEED);	
+	enemies.emplace_back(new Player(glm::vec3(10, 0, 10), constants::MED_SPEED));	
 	initPlayerData();
 	initGroundData();
 }
@@ -134,15 +134,17 @@ void World::initGroundData() {
 
 void World::Tick(GLfloat deltaTime) {
 	player.Tick(deltaTime, _groundLevel);
+	Entity* enemyCollide = collisionDetector.collide(player, enemies);
+	if (enemyCollide) {
+		player.Collide(enemyCollide);
+	}
 }
 
 void World::Draw()
 {
 	_view = camera.GetViewMatrix();
 	_projection = glm::perspective(camera.Zoom(), constants::WIDTH / constants::HEIGHT, 0.1f, 100.0f);
-	for (auto& p : other) {
-		DrawPlayer(p);
-	}
+	DrawEnemies();
 	DrawPlayer(player);
 	DrawGround();
 }
@@ -161,6 +163,24 @@ void World::DrawPlayer(const Player& player) {
 	glBindVertexArray(_playerVAO);
 	glDrawElements(GL_TRIANGLES, _playerNumVertices, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+}
+
+void World::DrawEnemies() {
+	for (const auto& e : enemies) {
+		glUseProgram(_playerShader);
+
+		glm::mat4 model;
+		model = glm::translate(model, e->position);
+		model = glm::rotate(model, e->yaw, constants::Y_AXIS);
+		model = glm::rotate(model, e->pitch, constants::X_AXIS);
+		glUniformMatrix4fv(glGetUniformLocation(_playerShader, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		glUniformMatrix4fv(glGetUniformLocation(_playerShader, "view"), 1, GL_FALSE, glm::value_ptr(_view));
+		glUniformMatrix4fv(glGetUniformLocation(_playerShader, "projection"), 1, GL_FALSE, glm::value_ptr(_projection));
+
+		glBindVertexArray(_playerVAO);
+		glDrawElements(GL_TRIANGLES, _playerNumVertices, GL_UNSIGNED_INT, 0);
+		glBindVertexArray(0);
+	}
 }
 
 void World::DrawGround() {

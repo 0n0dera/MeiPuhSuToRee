@@ -79,3 +79,8 @@ void Player::Move(EntityMovement direction, GLfloat delta) {
 	Entity::Move(direction, delta);
 	printf("%f, %f, %f\n", front.x, front.y, front.z);
 }
+
+void Player::Collide(Entity* entity) {
+	auto recoilVec = position - entity->position;
+	position = position + recoilVec;
+}
