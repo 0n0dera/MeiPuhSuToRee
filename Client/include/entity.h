@@ -30,13 +30,14 @@ public:
 		GLfloat boundingBoxDeltaY,
 		GLfloat boundingBoxDeltaZ
 	);
-	// probs need to make this virtual in the future
 	virtual ~Entity();
 
 	virtual void Tick(GLfloat deltaTime, GLfloat groundLevel);
 	virtual void Move(EntityMovement direction, GLfloat delta);
 	virtual void Rotate(GLfloat yaw, GLfloat pitch, GLfloat roll);
-	virtual void Jump();
+	virtual void Jump(float yVel);
+    virtual void Recoil(const glm::vec3& recoilVec) = 0;
+    virtual void Collide(Entity* entity) = 0;
 
 	// rotation around Y axis
 	GLfloat yaw;
@@ -61,10 +62,13 @@ public:
 	glm::vec3 up;
 	// movement speed
 	GLfloat speed;
-	// y velocity
-	GLfloat yVelocity = 0.0f;
+    // ambient movement
+    glm::vec3 ambientMovement;
+    
 	// on ground
 	bool grounded = true;
+    // recoiling
+    bool recoiling = false;
 	
 	// delta x/y/z for bounding box. half of actual x, y, z lengths
 	GLfloat boundingBoxDeltaX;
@@ -76,4 +80,5 @@ public:
 private:
 	void CalculateDirectionVectors();
 	void CalculateBoundingBox();
+    void AmbientMovement(GLfloat deltaTime, GLfloat groundLevel);
 };

@@ -30,14 +30,24 @@ Entity::Entity(
 
 Entity::~Entity() {}
 
+// get rid of groundLevel just query that eventually when non-flat ground
 void Entity::Tick(GLfloat deltaTime, GLfloat groundLevel) {
-	yVelocity = yVelocity + constants::GRAVITY * deltaTime;
-	position.y += yVelocity * deltaTime;
+    AmbientMovement(deltaTime, groundLevel);
+}
+
+void Entity::AmbientMovement(GLfloat deltaTime, GLfloat groundLevel) {
+	ambientMovement.y = ambientMovement.y + constants::GRAVITY * deltaTime;
+	position.y += ambientMovement.y * deltaTime;
 	if (position.y - boundingBoxDeltaY < groundLevel) {
 		position.y = groundLevel + boundingBoxDeltaY;
 		grounded = true;
-		yVelocity = 0.0f;
+        if (recoiling) {
+            recoiling = false;
+            ambientMovement = glm::vec3();
+        }
 	}
+    position.x += ambientMovement.x * deltaTime; 
+    position.z += ambientMovement.z * deltaTime; 
 }
 
 void Entity::Move(EntityMovement direction, GLfloat delta) {
@@ -52,10 +62,10 @@ void Entity::Rotate(GLfloat yaw, GLfloat pitch, GLfloat roll) {
 	nextRoll += roll;
 }
 
-void Entity::Jump() {
+void Entity::Jump(float yVel) {
 	if (grounded) {
 		grounded = false;
-		yVelocity = 5.0f;
+		ambientMovement.y = yVel;
 	}
 }
 

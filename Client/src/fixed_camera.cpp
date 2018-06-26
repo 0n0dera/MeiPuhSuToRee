@@ -17,18 +17,16 @@ glm::mat4 FixedCamera::GetViewMatrix() {
 
 void FixedCamera::Rotate(double dx, double dy) {
 	GLfloat dYaw = -dx * constants::MOUSE_SENS;
-	GLfloat dPitch = dy * constants::MOUSE_SENS * 0.001;
+	GLfloat dPitch = dy * constants::MOUSE_SENS;
 	GLfloat maxY = GetMaxY();
 	glm::vec3 v1 = _distance;
     if (dPitch < 0) {
-        dPitch = max(_upRotateAngle, dPitch);
+        dPitch = max(-_upRotateAngle, dPitch);
     } else {
-        dPitch = min((float)M_PI/2 - _upRotateAngle, dPitch);
+        dPitch = min(kMaxUpRotate - _upRotateAngle, dPitch);
     }
-    _upRotateAngle -= dPitch;
+    _upRotateAngle += dPitch;
 	v1 = glm::rotate(v1, -dPitch, glm::cross(-_distance, constants::WORLD_UP));
-    cout << "X" << " " << dYaw << endl;
-    cout << "Y " << dPitch << endl;
 	v1 = glm::rotate(v1, dYaw, constants::WORLD_UP);
 	_distance.x = v1.x;
 	_distance.y = v1.y;
