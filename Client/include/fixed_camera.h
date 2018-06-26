@@ -24,6 +24,8 @@ private:
 	Player& _player;
 	glm::vec3 _distance;
 	GLfloat _zoom;
+    GLfloat _sideRotateAngle = 0.0f;
+    GLfloat _upRotateAngle = 0.0f;
 };
 
 inline GLfloat FixedCamera::Zoom() const {
